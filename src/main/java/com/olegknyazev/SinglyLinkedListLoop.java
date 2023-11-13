@@ -1,6 +1,9 @@
 package com.olegknyazev;
 
 public class SinglyLinkedListLoop {
+    // Returns the origin of the loop in the passed list, if there's any.
+    // Otherwise, returns null.
+    // O(n) runtime, O(1) memory
     public static SinglyLinkedList findLoop(SinglyLinkedList head) {
         if (head == null)
             return null;
@@ -13,24 +16,15 @@ public class SinglyLinkedListLoop {
             if (!fast.advance())
                 break;
             if (slow.current == fast.current) {
-                var anchor = slow.current;
-                var probe = anchor;
-                var minDistance = Integer.MAX_VALUE;
-                do {
-                    minDistance = Math.min(minDistance, distance(head, probe));
-                    probe = probe.next;
-                } while (probe != anchor);
-                return head.nth(minDistance);
+                var origin = new TraverseState(head);
+                while (origin.current != slow.current) {
+                    origin.advance();
+                    slow.advance();
+                }
+                return origin.current;
             }
         }
         return null;
-    }
-
-    private static int distance(SinglyLinkedList head, SinglyLinkedList needle) {
-        var traverse = new TraverseState(head);
-        while (traverse.current != needle)
-            traverse.advance();
-        return traverse.steps;
     }
 
     static class TraverseState {
