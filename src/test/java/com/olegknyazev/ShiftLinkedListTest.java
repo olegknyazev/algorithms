@@ -1,12 +1,10 @@
 package com.olegknyazev;
 
-import com.olegknyazev.ShiftLinkedList.MutableNode;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
-import static com.olegknyazev.ShiftLinkedList.newListOf;
 import static com.olegknyazev.ShiftLinkedList.shiftInPlace;
 
 class ShiftLinkedListTest {
@@ -40,13 +38,17 @@ class ShiftLinkedListTest {
         assertShiftedIs(newListOf(1, 2, 3), -4, List.of(2, 3, 1));
     }
 
-    private static void assertShiftedIs(MutableNode original, int offset, List<Integer> expected) {
+    private static void assertShiftedIs(MutableSinglyLinkedList original, int offset, List<Integer> expected) {
         var shifted = shiftInPlace(original, offset);
         assertThat(shifted.toList()).isEqualTo(expected);
     }
 
-    private static void assertShiftedIsTheSame(MutableNode original, int offset) {
+    private static void assertShiftedIsTheSame(MutableSinglyLinkedList original, int offset) {
         var expected = original.toList();
         assertShiftedIs(original, offset, expected);
+    }
+
+    private static MutableSinglyLinkedList newListOf(int... values) {
+        return MutableSinglyLinkedList.of(values);
     }
 }
