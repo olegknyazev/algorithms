@@ -47,4 +47,16 @@ public class MutableSinglyLinkedList {
             current = new MutableSinglyLinkedList(values[i], current);
         return current;
     }
+
+    @Override
+    public String toString() {
+        return toList().toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MutableSinglyLinkedList other))
+            return false;
+        return toList().equals(other.toList());
+    }
 }
